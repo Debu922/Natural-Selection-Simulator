@@ -6,6 +6,7 @@
 class World
 {
     friend class Organism;
+
 public:
 
     static World* getWorld()
@@ -17,11 +18,17 @@ public:
 
     float getDistance(Organism a, Organism b);
     float getDistance(Organism a, Food b);
+    //static float* getGlobalReach() {
+    //    return &globalReach;
+    //}
 
+    //setVariables
     void setSize(float x, float y);
     void setSeed(int x);
     void setOrganismCount(int x);
     void setFoodCount(int x);
+    void setGlobalReach(float x);
+    
 
     void randomizeOrganismPosition();
     void randomizeFoodPosition();
@@ -39,28 +46,31 @@ public:
     void updatePositions();
     void spawnFood();
     void updateEnergy();
-    void setGlobalReach(float reach);
-
-    void initComplete();
-
+    
+    //logging
     void printParams();
+    void printOrganismStats();
 
+    //dataVectors
     std::vector<Organism> organisms;
     std::vector<Food> foodStuff;
     std::vector<std::vector<float>> OODistances;
     std::vector<std::vector<float>> OFDistances;
-protected:
 
+private:
+
+    //permanentVariables
     int seed;
-
-    float geneCopyErrorProb;
-
-    long timeStep;
     float xSize;
     float ySize;
-    float reach;
+    float geneCopyErrorProb;
 
-    bool isInit;
-private:
     static World world;
+    //static float globalReach;
+    //dynamicVariables
+    int organismCount;
+    int foodCount;
+    long timeStep;
 };
+
+//float World::globalReach = 0.0;

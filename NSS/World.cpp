@@ -8,7 +8,6 @@ World World::world;
 
 World::World()
 {
-    isInit = false;
     seed = 0;
     xSize = 0;
     ySize = 0;
@@ -43,7 +42,7 @@ void World::setOrganismCount(int x)
 {
     organisms.clear();
     for (int i = 0; i < x; i++) {
-        Organism temp(organisms);
+        Organism temp;
         organisms.push_back(temp);
     }
 }
@@ -53,11 +52,10 @@ void World::setFoodCount(int x)
     foodStuff.resize(x);
 }
 
-void World::initComplete()
+void World::setGlobalReach(float x)
 {
-    isInit = true;
+    //globalReach = x;
 }
-
 
 void World::printParams()
 {
@@ -68,6 +66,14 @@ void World::printParams()
     std::cout << "timeStep:\t " << timeStep << "\n";
     std::cout << "Organism count:\t " << organisms.size() << "\n";
     std::cout << "Food count:\t " << foodStuff.size() << "\n";
+}
+
+void World::printOrganismStats()
+{
+    for (int i = 0; i < organisms.size(); i++) {
+        std::cout << "ID: " << i << " ";
+        organisms[i].printAttributes();
+    }
 }
 
 void World::randomizeOrganismPosition()
@@ -100,7 +106,6 @@ void World::calculateOODistance()
         for (int j = 0; j < orgSize; j++)
         {
             OODistances[i][j] = getDistance(organisms[i], organisms[j]);
-
         }
     }
 
@@ -179,11 +184,4 @@ void World::spawnFood()
 void World::updateEnergy()
 {
 
-}
-
-void World::setGlobalReach(float reach)
-{
-    for (unsigned int i = 0; i < organisms.size(); i++) {
-        organisms[i].setReach(reach);
-    }
 }

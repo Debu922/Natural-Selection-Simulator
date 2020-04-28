@@ -19,7 +19,7 @@ void SimulationEngine::initWorld()
 
     std::cout << "Initializing World\n";
 
-    world->setSeed(99189898);
+    world->setSeed(10);
     world->setSize(100, 100);
     world->setOrganismCount(10);
     world->setFoodCount(100);
@@ -38,7 +38,9 @@ void SimulationEngine::initSim()
 {
     World* world = World::getWorld();
     world->randomizeOrganismPosition();
+    std::cout << "Randomized Organism Position Successfully\n";
     world->randomizeFoodPosition();
+    std::cout << "Randomized Food Position Successfully\n";
 }
 
 void SimulationEngine::startSim()
@@ -54,10 +56,7 @@ void SimulationEngine::startSim()
 void SimulationEngine::preTimeStep()
 {
     World* world = World::getWorld();
-    world->randomizeFoodPosition();
-    std::cout << "Randomized Food Position Successfully\n";
-    world->randomizeOrganismPosition();
-    std::cout << "Randomized Organism Position Successfully\n";
+    
     world->calculateOFDistance();
     std::cout << "OFD completed successfully\n";
     world->calculateOODistance();
@@ -82,7 +81,7 @@ void SimulationEngine::timeStep()
 void SimulationEngine::postTimeStep()
 {
     World* world = World::getWorld();
-
+    world->printOrganismStats();
     world->initNewOrganisms();
     world->killOldOrganisms();
     world->updateHealth();

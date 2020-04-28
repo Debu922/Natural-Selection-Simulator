@@ -1,27 +1,4 @@
-﻿  CLIEngine.cpp
-F:\PROGRAMMING\Projects\NSS\NSS\CLIEngine.cpp(38,33): error C3533: a parameter cannot have a type that contains 'auto'
-  Food.cpp
-  Genome.cpp
-F:\PROGRAMMING\Projects\NSS\NSS\Genome.cpp(14,20): error C2275: 'World': illegal use of this type as an expression
-F:\PROGRAMMING\Projects\NSS\NSS\World.h(6): message : see declaration of 'World'
-F:\PROGRAMMING\Projects\NSS\NSS\Genome.cpp(15,5): error C2065: 'geneCopyErrorProb': undeclared identifier
-F:\PROGRAMMING\Projects\NSS\NSS\Genome.cpp(15,30): error C2248: 'World::geneCopyErrorProb': cannot access protected member declared in class 'World'
-F:\PROGRAMMING\Projects\NSS\NSS\World.h(56): message : see declaration of 'World::geneCopyErrorProb'
-F:\PROGRAMMING\Projects\NSS\NSS\World.h(6): message : see declaration of 'World'
-  NSS.cpp
-  Organism.cpp
-F:\PROGRAMMING\Projects\NSS\NSS\Organism.cpp(97,9): warning C4101: 'closeFriendly': unreferenced local variable
-F:\PROGRAMMING\Projects\NSS\NSS\Organism.cpp(98,9): warning C4101: 'closeFoe': unreferenced local variable
-  Position.cpp
+﻿  NSS.cpp
   SimulationEngine.cpp
-  Utils.cpp
-F:\PROGRAMMING\Projects\NSS\NSS\Utils.h(7,16): error C2065: 'Position': undeclared identifier
-F:\PROGRAMMING\Projects\NSS\NSS\Utils.h(7,25): error C2146: syntax error: missing ')' before identifier 'x'
-F:\PROGRAMMING\Projects\NSS\NSS\Utils.cpp(29,43): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  World.cpp
-F:\PROGRAMMING\Projects\NSS\NSS\World.cpp(92,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-F:\PROGRAMMING\Projects\NSS\NSS\World.cpp(111,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-F:\PROGRAMMING\Projects\NSS\NSS\World.cpp(112,36): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating Code...
-F:\PROGRAMMING\Projects\NSS\NSS\SimulationEngine.cpp(95): error C4716: 'SimulationEngine::isSimInit': must return a value
-F:\PROGRAMMING\Projects\NSS\NSS\SimulationEngine.cpp(100): error C4716: 'SimulationEngine::isWorldInit': must return a value
+  NSS.vcxproj -> F:\PROGRAMMING\Projects\Natural-Selection-Simulator\x64\Debug\NSS.exe
