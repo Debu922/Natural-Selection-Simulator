@@ -29,7 +29,7 @@ float Position::getXPos()
     return xPos;
 }
 
-float Position::getYpos()
+float Position::getYPos()
 {
     return yPos;
 }

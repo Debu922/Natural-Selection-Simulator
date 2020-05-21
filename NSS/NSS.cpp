@@ -2,7 +2,7 @@
 
 /*
 Author: Debaditya Bhattacharya
-Version: 0.4gamma
+Version: 0.5gamma
 */
 #include <iostream>
 #include "CLIEngine.h"
@@ -13,7 +13,7 @@ std::string version;
 int main()
 {
     SimulationEngine* sim = SimulationEngine::getSim();
-    version = "0.4gamma";
+    version = "0.5gamma";
     std::cout << "NATURAL SELECTION SIMULATOR V: " << version << std::endl;
     sim->startUI();
     std::cout << "UI Started successfully\n";
@@ -21,7 +21,7 @@ int main()
     std::cout << "World Initialized successfully\n";
     sim->initSim();
     std::cout << "Simulation Initialized successfully\n";
-    sim->startSim();
+    sim->startSim(1);
     std::cout << "Simulation Started successfully\n";
     return 0;
 }

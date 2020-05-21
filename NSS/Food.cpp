@@ -10,3 +10,8 @@ void Food::upddateAmount(double x)
 {
 
 }
+
+float Food::getAmount()
+{
+	return amount;
+}

@@ -5,12 +5,10 @@
 
 struct State {
     bool isFlee = false;
-    bool isFight = false;
-    bool isMate = false;
+    bool isChaseMate = false;
     bool isHungry = false;
     bool isTired = false;
-    int foodInAttention = -1;
-    int organismInAttention = -1;
+    int targetFood = -1;
 };
 
 struct Attributes {
@@ -32,7 +30,11 @@ public:
 
     void scanEnvironment(int id);
     void getVision();
-    void judgement();
+    void foodJudgement(int id);
+    void foodInteract(int id);
+    void organismInteract(int id);
+    void updateDirection(int id);
+    void move(int id);
 
     void printAttributes();
 

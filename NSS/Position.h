@@ -10,7 +10,7 @@ public:
     void updatePos(float x, float y);
     void updateDir(float x);
     float getXPos();
-    float getYpos();
+    float getYPos();
     float getDirection();
     friend std::ostream& operator<<(std::ostream&, Position const& x);
 protected:

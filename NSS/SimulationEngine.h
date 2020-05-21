@@ -12,7 +12,7 @@ public:
     void startUI();
     void initWorld();
     void initSim();
-    void startSim();
+    void startSim(int steps);
 
     static SimulationEngine* getSim() { return &sim; }
 
@@ -22,5 +22,7 @@ public:
 
     bool isSimInit();
     bool isWorldInit();
+
+    int stepCount = 0;
 };
 

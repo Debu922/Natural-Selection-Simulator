@@ -7,11 +7,12 @@ class Food
 public:
     Food();
     void upddateAmount(double x);
+    float getAmount();
 
     Position pos;
 
 protected:
-    double amount;
+    float amount;
     std::string type;
 private:
 };

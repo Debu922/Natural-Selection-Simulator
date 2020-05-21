@@ -90,6 +90,7 @@ void World::randomizeFoodPosition()
     for (unsigned int i = 0; i < foodStuff.size(); i++)
     {
         foodStuff[i].pos.updatePos(randF(xSize), randF(ySize));
+        foodStuff[i].upddateAmount(25 + randF(75));
     }
 }
 
@@ -142,18 +143,26 @@ void World::organismDecision()
 {
     for (unsigned int i = 0; i < organisms.size(); i++)
     {
-        organisms[i].judgement();
+        organisms[i].foodJudgement(i);
     }
 }
 
 void World::OOInteractions()
 {
-
+    //for (int i = 0; i < organisms.size(); i++) {
+    //    if (organisms[i].organismsWithinReach.size() != 0) {
+    //        organisms[i].organismInteract(i);
+    //    }
+    //}
 }
 
 void World::OFInteractions()
 {
-
+    for (int i = 0; i < organisms.size(); i++) {
+        if (organisms[i].foodWithinReach.size() != 0) {
+            organisms[i].foodInteract(i);
+        }
+    }
 }
 
 void World::initNewOrganisms()
@@ -163,7 +172,7 @@ void World::initNewOrganisms()
 
 void World::killOldOrganisms()
 {
-
+    //Also deal with Food!
 }
 
 void World::updateHealth()
@@ -173,7 +182,11 @@ void World::updateHealth()
 
 void World::updatePositions()
 {
-
+    for (int i = 0; i < organisms.size(); i++) {
+        Organism* organism = &organisms[i];
+        organism->updateDirection(i);
+        organism->move(i);
+    }
 }
 
 void World::spawnFood()

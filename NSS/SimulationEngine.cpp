@@ -19,11 +19,12 @@ void SimulationEngine::initWorld()
 
     std::cout << "Initializing World\n";
 
-    world->setSeed(10);
-    world->setSize(100, 100);
-    world->setOrganismCount(10);
+    world->setSeed(4);
+    world->setSize(500, 500);
+    world->setOrganismCount(100);
     world->setFoodCount(100);
     world->setGlobalReach(2.0);
+    stepCount = 0;
     /**
     world.printParams();
     world.setSeed(cli.getUserInputI("Please input seed(int)"));
@@ -38,19 +39,38 @@ void SimulationEngine::initSim()
 {
     World* world = World::getWorld();
     world->randomizeOrganismPosition();
-    std::cout << "Randomized Organism Position Successfully\n";
     world->randomizeFoodPosition();
-    std::cout << "Randomized Food Position Successfully\n";
 }
 
-void SimulationEngine::startSim()
+void SimulationEngine::startSim(int steps)
 {
-    preTimeStep();
-    std::cout << "preTimeStep completed successfully\n";
-    timeStep();
-    std::cout << "timeStep completed successfully\n";
-    postTimeStep();
-    std::cout << "postTimeStep completed successfully\n";
+    for (int i = 0; i < steps;i++) {
+        preTimeStep();
+        timeStep();
+        postTimeStep();
+    }
+    
+}
+
+void checkVision() {
+    //This function will print out the values of the organisms within vision
+    World* world = World::getWorld();
+    std::cout << "PRINTING ORGANISMS WITHIN VISION" << std::endl;
+    for (int j = 0; j < world->organisms.size(); j++) {
+        std::cout << "Organism:" << j << " ";
+        for (int i = 0; i < world->organisms[j].organismsWithinVision.size(); i++) {
+            std::cout << world->organisms[j].organismsWithinVision[i] << " ";
+        }
+        std::cout << std::endl;
+    };
+    std::cout << "PRINTING FOOD WITHIN VISION" << std::endl;
+        for (int j = 0; j < world->organisms.size(); j++) {
+            std::cout << "Organism:" << j << " ";
+            for (int i = 0; i < world->organisms[j].foodWithinVision.size(); i++) {
+                std::cout << world->organisms[j].foodWithinVision[i] << " ";
+            }
+            std::cout << std::endl;
+        }
 }
 
 void SimulationEngine::preTimeStep()
@@ -58,11 +78,10 @@ void SimulationEngine::preTimeStep()
     World* world = World::getWorld();
     
     world->calculateOFDistance();
-    std::cout << "OFD completed successfully\n";
     world->calculateOODistance();
-    std::cout << "OOD completed successfully\n";
     world->organismVision_Reach();
-    std::cout << "VR completed successfully\n";
+    //ORGANISMS CAN SEE EACH OTHER BASED ON THEIR VISION PARAMETER!
+    checkVision();
 }
 
 
@@ -71,7 +90,7 @@ void SimulationEngine::timeStep()
 {
     World* world = World::getWorld();
 
-    world->OOInteractions();
+    world->OOInteractions(); 
     world->OFInteractions();
     world->organismDecision();
     world->updatePositions();
@@ -87,6 +106,7 @@ void SimulationEngine::postTimeStep()
     world->updateHealth();
 
     world->spawnFood();
+    stepCount++;
 }
 bool SimulationEngine::isSimInit()
 {

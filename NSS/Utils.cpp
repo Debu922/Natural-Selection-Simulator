@@ -31,6 +31,6 @@ float randF(float x)
 
 float distance(Position a, Position b)
 {
-    return((float)sqrt(pow(a.getXPos() - b.getXPos(), 2) + pow(a.getYpos() - b.getYpos(), 2)));
+    return((float)sqrt(pow(a.getXPos() - b.getXPos(), 2) + pow(a.getYPos() - b.getYPos(), 2)));
 }
 

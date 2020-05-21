@@ -1,6 +1,8 @@
 #include "Organism.h"
 #include <iostream>
 #include "World.h"
+#include "Utils.h"
+#include <cmath>
 
 Organism::Organism()
 {
@@ -39,7 +41,7 @@ void Organism::generateAttributes()
 {
     ExpressedGene expressedGene = genome.getExpressedGene();
     //enzymeEfficiency - returns present enzyme effiency always between [36,100] for fresh born.
-    this->enzymeEfficiency = 36.0 + 0.25*expressedGene.maxEnzymeEfficiency;
+    this->enzymeEfficiency = 36.0 + 0.25 * expressedGene.maxEnzymeEfficiency;
     //intelligence - returns fraction, always between (0.1,0.99) for fresh born.
     this->attributes.intelligence = 0.1 + 0.0002 * expressedGene.brainDev * sqrt(this->enzymeEfficiency);
     //vision - returns distance can see, between (4,50)
@@ -48,7 +50,7 @@ void Organism::generateAttributes()
     this->attributes.agility = 5.0 + (10 * (this->enzymeEfficiency / 100.0)) + (5.0 * (expressedGene.feetSize / 256.0))
         - 3.0 * (expressedGene.bodySize / 256.0) - 2.0 * (expressedGene.feathers / 256.0);
     //strength - returns value (10,75)
-    this->attributes.strength = 10.0 + (25 * (expressedGene.bodySize / 256.0) + 20 * (expressedGene.feetSize + expressedGene.handSize) / 256.0) * this->enzymeEfficiency/100.0;
+    this->attributes.strength = 10.0 + (25 * (expressedGene.bodySize / 256.0) + 20 * (expressedGene.feetSize + expressedGene.handSize) / 256.0) * this->enzymeEfficiency / 100.0;
     //fighting capability returns fraction
     this->attributes.fightingCapability = (100 * (sqrt(expressedGene.handSize / 256.0)) * ((expressedGene.feetSize + expressedGene.handSize) / 265.0) + this->attributes.strength) * this->attributes.agility * this->attributes.intelligence;
     //attractiveness
@@ -74,7 +76,7 @@ bool Organism::isVisible(float x)
 }
 bool Organism::isReachable(float x)
 {
-    
+
     //TODO NOT INITIALIZED!
     return 2.0 > x;
 }
@@ -89,6 +91,7 @@ void Organism::scanEnvironment(int id)
     foodWithinReach.clear();
     for (unsigned int i = 0; i < world->OODistances[id].size(); i++)
     {
+        if (id == i) continue;
         //std::cout<<world->OODistances[id][i];
         if (isVisible(world->OODistances[id][i]))
         {
@@ -117,16 +120,72 @@ void Organism::getVision()
 
 }
 
-void Organism::judgement()
+void Organism::foodJudgement(int id)
 {
-    int closeFriendly;
-    int closeFoe;
+    World* world = World::getWorld();
+    int closeFood = -1;
+    float closeDistance = 10000000.0;
+    for (int i = 0; i < foodWithinVision.size(); i++) {
+        if (world->OFDistances[id][foodWithinVision[i]] < closeDistance) {
+            closeFood = i;
+        }
+    }
+    this->state.targetFood = closeFood;
+    return;
+}
+
+
+
+void Organism::foodInteract(int id)
+{
+    World* world = World::getWorld();
+    int closeFood = -1;
+    float closeDistance = 100.0;
+    for (int i = 0; i < foodWithinReach.size(); i++) {
+        if (world->OFDistances[id][foodWithinReach[i]] < closeDistance){
+            closeFood = i;
+        }
+    }
+    if (state.isChaseMate == false && state.isFlee == false && state.isHungry == true) {
+        if (energy + world->foodStuff[closeFood].getAmount() > 100) {
+            world->foodStuff[closeDistance].upddateAmount(world->foodStuff[closeFood].getAmount() - 100 + energy);
+            energy = 100.0;
+        }
+        else {
+            energy += world->foodStuff[closeFood].getAmount();
+            world->foodStuff[closeFood].upddateAmount(0);
+        }
+    }
+}
+
+void Organism::updateDirection(int id)
+{
+    if (state.targetFood = -1) {
+        if (randI(20) == 0) {
+            pos.updateDir(randF(2 * 3.14));
+        }
+        return;
+    }
+    World* world = World::getWorld();
+    Position foodPos = world->foodStuff[state.targetFood].pos;
+    float xRel = foodPos.getXPos() - pos.getXPos();
+    float yRel = foodPos.getYPos() - pos.getYPos();
+    float distance = sqrt(xRel * xRel + yRel * yRel);
+    float theta = acos(xRel / distance);
+    float angle = yRel > 0 ? theta : theta + 3.14;
+
+    pos.updateDir(angle);
+}
+
+void Organism::move(int id)
+{
+
 }
 
 void Organism::printAttributes()
 {
-    std::cout << "A:" << attributes.agility << " V:" << attributes.vision << " At:" << attributes.attractiveness 
-        << " FC:" << attributes.fightingCapability << " I:" << attributes.intelligence << std::endl;
+    std::cout << "A:" << attributes.agility << "\tV:" << attributes.vision << "\tAt:" << attributes.attractiveness 
+        << "\tFC:" << attributes.fightingCapability << "\tI:" << attributes.intelligence << std::endl;
 }
 
 
