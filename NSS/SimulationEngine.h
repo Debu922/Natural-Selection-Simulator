@@ -20,6 +20,9 @@ public:
     void timeStep();
     void postTimeStep();
 
+    void checkVision();
+    void checkOFDistance();
+
     bool isSimInit();
     bool isWorldInit();
 

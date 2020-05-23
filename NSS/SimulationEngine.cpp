@@ -21,7 +21,7 @@ void SimulationEngine::initWorld()
 
     world->setSeed(4);
     world->setSize(500, 500);
-    world->setOrganismCount(100);
+    world->setOrganismCount(10);
     world->setFoodCount(100);
     world->setGlobalReach(2.0);
     stepCount = 0;
@@ -44,6 +44,7 @@ void SimulationEngine::initSim()
 
 void SimulationEngine::startSim(int steps)
 {
+    World* world = World::getWorld();
     for (int i = 0; i < steps;i++) {
         preTimeStep();
         timeStep();
@@ -52,7 +53,7 @@ void SimulationEngine::startSim(int steps)
     
 }
 
-void checkVision() {
+void SimulationEngine::checkVision() {
     //This function will print out the values of the organisms within vision
     World* world = World::getWorld();
     std::cout << "PRINTING ORGANISMS WITHIN VISION" << std::endl;
@@ -73,6 +74,23 @@ void checkVision() {
         }
 }
 
+void SimulationEngine::checkOFDistance() {
+    World* world = World::getWorld();
+    std::cout << "Printing OFDisntances in timestep :" << stepCount << std::endl;
+    for (int i = 0; i < world->organisms.size(); i++) {
+        if (world->organisms[i].foodWithinVision.size() != 0) {
+            std::cout << "Organism id" << i << world->organisms[i].pos <<  "target " << world->organisms[i].state.targetFood<<"\t";
+            for (int j = 0; j < world->organisms[i].foodWithinVision.size(); j++) {
+                std::cout << world->organisms[i].foodWithinVision[j] << " " << world->foodStuff[world->organisms[i].foodWithinVision[j]].pos << ":" 
+                    << world->OFDistances[i][world->organisms[i].foodWithinVision[j]] << " ";
+            }
+            std::cout << std::endl;
+        }
+    }
+    std::cout << std::endl;
+    return;
+}
+
 void SimulationEngine::preTimeStep()
 {
     World* world = World::getWorld();
@@ -81,7 +99,7 @@ void SimulationEngine::preTimeStep()
     world->calculateOODistance();
     world->organismVision_Reach();
     //ORGANISMS CAN SEE EACH OTHER BASED ON THEIR VISION PARAMETER!
-    checkVision();
+    //checkVision();
 }
 
 
@@ -93,6 +111,7 @@ void SimulationEngine::timeStep()
     world->OOInteractions(); 
     world->OFInteractions();
     world->organismDecision();
+    checkOFDistance();
     world->updatePositions();
     world->updateEnergy();
 }
@@ -100,9 +119,10 @@ void SimulationEngine::timeStep()
 void SimulationEngine::postTimeStep()
 {
     World* world = World::getWorld();
-    world->printOrganismStats();
+    //world->printOrganismStats();
     world->initNewOrganisms();
     world->killOldOrganisms();
+    world->updateFood();
     world->updateHealth();
 
     world->spawnFood();

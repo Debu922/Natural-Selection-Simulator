@@ -72,13 +72,13 @@ void Organism::updateAttributes()
 bool Organism::isVisible(float x)
 {
     //TODO NOT INITIALIZED!
-    return visibility > x;
+    return visibility >= x;
 }
 bool Organism::isReachable(float x)
 {
 
     //TODO NOT INITIALIZED!
-    return 2.0 > x;
+    return 2.0 >= x;
 }
 
 void Organism::scanEnvironment(int id)
@@ -126,11 +126,12 @@ void Organism::foodJudgement(int id)
     int closeFood = -1;
     float closeDistance = 10000000.0;
     for (int i = 0; i < foodWithinVision.size(); i++) {
-        if (world->OFDistances[id][foodWithinVision[i]] < closeDistance) {
-            closeFood = i;
+        if (world->OFDistances[id][foodWithinVision[i]] <= closeDistance) {
+            closeFood = foodWithinVision[i];
+            closeDistance = world->OFDistances[id][foodWithinVision[i]];
         }
     }
-    this->state.targetFood = closeFood;
+    state.targetFood = closeFood;
     return;
 }
 
@@ -143,26 +144,28 @@ void Organism::foodInteract(int id)
     float closeDistance = 100.0;
     for (int i = 0; i < foodWithinReach.size(); i++) {
         if (world->OFDistances[id][foodWithinReach[i]] < closeDistance){
-            closeFood = i;
+            closeFood = foodWithinReach[i];
+            closeDistance = world->OFDistances[id][foodWithinReach[i]];
         }
     }
     if (state.isChaseMate == false && state.isFlee == false && state.isHungry == true) {
         if (energy + world->foodStuff[closeFood].getAmount() > 100) {
-            world->foodStuff[closeDistance].upddateAmount(world->foodStuff[closeFood].getAmount() - 100 + energy);
+            world->foodStuff[closeFood].updateAmount(world->foodStuff[closeFood].getAmount() - 100 + energy);
+            world->foodStuff[closeFood].updateAmount(0);//DEBUGGING!
             energy = 100.0;
         }
         else {
             energy += world->foodStuff[closeFood].getAmount();
-            world->foodStuff[closeFood].upddateAmount(0);
+            world->foodStuff[closeFood].updateAmount(0);
         }
     }
 }
 
 void Organism::updateDirection(int id)
 {
-    if (state.targetFood = -1) {
+    if (state.targetFood == -1) {
         if (randI(20) == 0) {
-            pos.updateDir(randF(2 * 3.14));
+            pos.updateDir(randF(2 * 3.14) - 3.14);
         }
         return;
     }
@@ -171,15 +174,33 @@ void Organism::updateDirection(int id)
     float xRel = foodPos.getXPos() - pos.getXPos();
     float yRel = foodPos.getYPos() - pos.getYPos();
     float distance = sqrt(xRel * xRel + yRel * yRel);
-    float theta = acos(xRel / distance);
-    float angle = yRel > 0 ? theta : theta + 3.14;
+    float theta;
+    if (distance == 0.0) {
+        theta = 0;
+    }
+    else {
+        theta = acos(xRel / distance);
+    }    
+    float angle = yRel > 0 ? theta : -theta;
 
     pos.updateDir(angle);
 }
 
 void Organism::move(int id)
 {
-
+    float moveAmt = attributes.agility / 4.0;
+    World* world = World::getWorld();
+    if (state.targetFood != -1) {
+        float distanceToFood = world->OFDistances[id][state.targetFood];
+        if (moveAmt > distanceToFood) {
+            moveAmt = distanceToFood;
+        }
+    }
+    float xPos = pos.getXPos();
+    float yPos = pos.getYPos();
+    float dir = pos.getDirection();
+    pos.updatePos(xPos + moveAmt * cos(dir), yPos + moveAmt * sin(dir));
+    energy -= moveAmt / attributes.agility / 4.0;
 }
 
 void Organism::printAttributes()

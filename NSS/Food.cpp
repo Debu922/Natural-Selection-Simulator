@@ -6,9 +6,9 @@ Food::Food()
     //ctor
 }
 
-void Food::upddateAmount(double x)
+void Food::updateAmount(double x)
 {
-
+    amount = x;
 }
 
 float Food::getAmount()

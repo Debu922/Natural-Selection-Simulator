@@ -40,5 +40,5 @@ float Position::getDirection()
 
 std::ostream& operator<<(std::ostream& os, const Position& x)
 {
-    return os << "pos(" << x.xPos << "," << x.yPos << ")";
+    return os << "(" << x.xPos << "," << x.yPos << ","<< x.direction <<")";
 }

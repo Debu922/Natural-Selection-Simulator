@@ -21,7 +21,7 @@ int main()
     std::cout << "World Initialized successfully\n";
     sim->initSim();
     std::cout << "Simulation Initialized successfully\n";
-    sim->startSim(1);
+    sim->startSim(100);
     std::cout << "Simulation Started successfully\n";
     return 0;
 }

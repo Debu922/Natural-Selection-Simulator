@@ -6,7 +6,7 @@
 struct State {
     bool isFlee = false;
     bool isChaseMate = false;
-    bool isHungry = false;
+    bool isHungry = true;
     bool isTired = false;
     int targetFood = -1;
 };

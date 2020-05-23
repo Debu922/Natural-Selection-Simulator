@@ -90,7 +90,7 @@ void World::randomizeFoodPosition()
     for (unsigned int i = 0; i < foodStuff.size(); i++)
     {
         foodStuff[i].pos.updatePos(randF(xSize), randF(ySize));
-        foodStuff[i].upddateAmount(25 + randF(75));
+        foodStuff[i].updateAmount(25 + randF(75));
     }
 }
 
@@ -186,6 +186,17 @@ void World::updatePositions()
         Organism* organism = &organisms[i];
         organism->updateDirection(i);
         organism->move(i);
+    }
+}
+
+void World::updateFood()
+{   
+    for (int i = foodStuff.size()-1; i > -1; i--) {
+        //std::cout << foodStuff[i].getAmount();
+        if (foodStuff[i].getAmount() == 0) {
+            foodStuff.erase(foodStuff.begin() + i);
+            i--;
+        }
     }
 }
 

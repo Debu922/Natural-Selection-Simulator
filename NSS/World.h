@@ -44,6 +44,7 @@ public:
     void killOldOrganisms();
     void updateHealth();
     void updatePositions();
+    void updateFood();
     void spawnFood();
     void updateEnergy();
     
