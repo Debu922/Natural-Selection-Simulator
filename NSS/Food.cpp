@@ -6,7 +6,7 @@ Food::Food()
     //ctor
 }
 
-void Food::updateAmount(double x)
+void Food::updateAmount(float x)
 {
     amount = x;
 }

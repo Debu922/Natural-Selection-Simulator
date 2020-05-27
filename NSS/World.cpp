@@ -3,6 +3,7 @@
 #include <iomanip>
 #include "Utils.h"
 #include "Organism.h"
+#include "SimulationEngine.h"
 
 World World::world;
 
@@ -170,9 +171,43 @@ void World::initNewOrganisms()
 
 }
 
-void World::killOldOrganisms()
+void updateHungerState(Organism* organism) {
+    if (organism->energy > 50) {
+        organism->state.isHungry = false;
+    }
+    else {
+        organism->state.isHungry = true;
+    }
+}
+
+void updateCooldown(Organism* organism) {
+    if (organism->state.cooldown > 0) {
+        organism->state.cooldown--;
+    }
+}
+
+void updateWanderState(Organism* organism) {
+    if (!organism->state.isFlee && !organism->state.isChaseMate && !organism->state.isHungry && (organism->state.targetFood != -1)) {
+        organism->state.wander = true;
+    }
+}
+
+void World::updateOrganisms()
 {
-    //Also deal with Food!
+    SimulationEngine* sim = SimulationEngine::getSim();
+    for (int i = 0; i < organisms.size(); i++) {
+        updateCooldown(&organisms[i]);
+        updateHungerState(&organisms[i]);
+        updateWanderState(&organisms[i]);
+        
+    }
+    //Kill Organism
+    for (int i = organisms.size() - 1; i > -1; i--) {
+        if (organisms[i].energy <= 0) {
+            organisms.erase(organisms.begin() + i);
+            std::cout << sim->stepCount << " Organism Killed" << std::endl;
+        }
+    }
 }
 
 void World::updateHealth()
@@ -191,11 +226,14 @@ void World::updatePositions()
 
 void World::updateFood()
 {   
-    for (int i = foodStuff.size()-1; i > -1; i--) {
-        //std::cout << foodStuff[i].getAmount();
-        if (foodStuff[i].getAmount() == 0) {
+    SimulationEngine* sim = SimulationEngine::getSim();
+    for (int i = foodStuff.size() - 1; i > -1; i--) {
+        if (sim->stepCount % 100 == 0) {
+            std::cout << i << " " << foodStuff[i].getAmount()<<std::endl;
+        }
+        if (foodStuff[i].getAmount() <= 0) {
             foodStuff.erase(foodStuff.begin() + i);
-            i--;
+            std::cout << sim->stepCount<< " - Food Deleted" << std::endl;
         }
     }
 }
@@ -207,5 +245,8 @@ void World::spawnFood()
 
 void World::updateEnergy()
 {
-
+    for (int i = 0; i < organisms.size(); i++) {
+        organisms[i].energy -= 0.5 * (1 - organisms[i].enzymeEfficiency);
+        organisms[i].enzymeEfficiency *= 0.99;
+    }
 }

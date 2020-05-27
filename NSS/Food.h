@@ -6,7 +6,7 @@ class Food
 {
 public:
     Food();
-    void updateAmount(double x);
+    void updateAmount(float x);
     float getAmount();
 
     Position pos;

@@ -148,10 +148,9 @@ void Organism::foodInteract(int id)
             closeDistance = world->OFDistances[id][foodWithinReach[i]];
         }
     }
-    if (state.isChaseMate == false && state.isFlee == false && state.isHungry == true) {
+    if (state.isHungry) {
         if (energy + world->foodStuff[closeFood].getAmount() > 100) {
             world->foodStuff[closeFood].updateAmount(world->foodStuff[closeFood].getAmount() - 100 + energy);
-            world->foodStuff[closeFood].updateAmount(0);//DEBUGGING!
             energy = 100.0;
         }
         else {
@@ -161,18 +160,9 @@ void Organism::foodInteract(int id)
     }
 }
 
-void Organism::updateDirection(int id)
-{
-    if (state.targetFood == -1) {
-        if (randI(20) == 0) {
-            pos.updateDir(randF(2 * 3.14) - 3.14);
-        }
-        return;
-    }
-    World* world = World::getWorld();
-    Position foodPos = world->foodStuff[state.targetFood].pos;
-    float xRel = foodPos.getXPos() - pos.getXPos();
-    float yRel = foodPos.getYPos() - pos.getYPos();
+float aimDirection(Position orgP, Position objP) {
+    float xRel = objP.getXPos() - orgP.getXPos();
+    float yRel = objP.getYPos() - orgP.getYPos();
     float distance = sqrt(xRel * xRel + yRel * yRel);
     float theta;
     if (distance == 0.0) {
@@ -180,10 +170,34 @@ void Organism::updateDirection(int id)
     }
     else {
         theta = acos(xRel / distance);
-    }    
+    }
     float angle = yRel > 0 ? theta : -theta;
+    return angle;
+}
 
-    pos.updateDir(angle);
+void Organism::updateDirection(int id)
+{
+    World* world = World::getWorld();
+    if (state.wander) {
+        if (randI(20) == 0) {
+            pos.updateDir(randF(2 * 3.14) - 3.14);
+        }
+        return;
+    }
+    if (state.isHungry&&state.targetFood!=-1) {
+        float angle = aimDirection(pos, world->foodStuff[state.targetFood].pos);
+        pos.updateDir(angle);
+        return;
+    }
+    if (state.isFlee) {
+        float angle = aimDirection(pos, world->organisms[state.fleeFrom].pos);
+        pos.updateDir(angle);
+        return;
+    }
+    if (state.isChaseMate) {
+        float angle = aimDirection(pos, world->organisms[state.chasedMate].pos);
+        return;
+    }
 }
 
 void Organism::move(int id)
@@ -200,7 +214,7 @@ void Organism::move(int id)
     float yPos = pos.getYPos();
     float dir = pos.getDirection();
     pos.updatePos(xPos + moveAmt * cos(dir), yPos + moveAmt * sin(dir));
-    energy -= moveAmt / attributes.agility / 4.0;
+    energy -= moveAmt / (attributes.agility / 4.0);
 }
 
 void Organism::printAttributes()

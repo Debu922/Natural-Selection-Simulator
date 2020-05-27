@@ -41,7 +41,7 @@ public:
     void OFInteractions();
 
     void initNewOrganisms();
-    void killOldOrganisms();
+    void updateOrganisms();
     void updateHealth();
     void updatePositions();
     void updateFood();

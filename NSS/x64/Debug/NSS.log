@@ -1,22 +1,2 @@
-﻿  Organism.cpp
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\Organism.cpp(37,26): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\Organism.cpp(44,35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\Organism.cpp(46,41): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\Organism.cpp(48,33): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\Organism.cpp(51,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\Organism.cpp(53,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\Organism.cpp(55,207): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\Organism.cpp(65,50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\Organism.cpp(67,38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\Organism.cpp(69,207): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\Organism.cpp(168,41): warning C4305: 'argument': truncation from 'double' to 'float'
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\Organism.cpp(168,43): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\Organism.cpp(191,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\Organism.cpp(203,49): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
-  World.cpp
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\World.cpp(99,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\World.cpp(117,35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\World.cpp(118,36): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-F:\PROGRAMMING\Projects\Natural-Selection-Simulator\NSS\World.cpp(194,40): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  Generating Code...
+﻿  NSS.cpp
   NSS.vcxproj -> F:\PROGRAMMING\Projects\Natural-Selection-Simulator\x64\Debug\NSS.exe

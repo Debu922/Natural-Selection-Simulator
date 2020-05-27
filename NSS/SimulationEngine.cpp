@@ -20,9 +20,9 @@ void SimulationEngine::initWorld()
     std::cout << "Initializing World\n";
 
     world->setSeed(4);
-    world->setSize(500, 500);
+    world->setSize(50, 50);
     world->setOrganismCount(10);
-    world->setFoodCount(100);
+    world->setFoodCount(10);
     world->setGlobalReach(2.0);
     stepCount = 0;
     /**
@@ -69,6 +69,7 @@ void SimulationEngine::checkVision() {
             std::cout << "Organism:" << j << " ";
             for (int i = 0; i < world->organisms[j].foodWithinVision.size(); i++) {
                 std::cout << world->organisms[j].foodWithinVision[i] << " ";
+                
             }
             std::cout << std::endl;
         }
@@ -111,7 +112,7 @@ void SimulationEngine::timeStep()
     world->OOInteractions(); 
     world->OFInteractions();
     world->organismDecision();
-    checkOFDistance();
+    //checkOFDistance();
     world->updatePositions();
     world->updateEnergy();
 }
@@ -121,7 +122,7 @@ void SimulationEngine::postTimeStep()
     World* world = World::getWorld();
     //world->printOrganismStats();
     world->initNewOrganisms();
-    world->killOldOrganisms();
+    world->updateOrganisms();
     world->updateFood();
     world->updateHealth();
 

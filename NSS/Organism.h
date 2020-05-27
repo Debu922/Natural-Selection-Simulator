@@ -7,8 +7,11 @@ struct State {
     bool isFlee = false;
     bool isChaseMate = false;
     bool isHungry = true;
-    bool isTired = false;
+    bool wander = false;
     int targetFood = -1;
+    int fleeFrom = -1;
+    int chasedMate = -1;
+    int cooldown = 0;
 };
 
 struct Attributes {
@@ -49,14 +52,14 @@ public:
     std::vector<int> organismsWithinReach;
     std::vector<int> foodWithinVision;
     std::vector<int> foodWithinReach;
-protected:
+
     void generateAttributes();
     void updateAttributes();
     Genome genome;
     float energy = 50.0;
     float health = 100.0;
     float maxHealth = 100.0;
-    float enzymeEfficiency = 0.0;
+    float enzymeEfficiency = 1.0;
     float visibility = 0.0;
     int age = 0;
 private:
